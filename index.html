@@ -148,12 +148,100 @@
         padding: 0.6em 1.4em;
       }
     }
+
+    /* VR沉浸式效果 */
+    .vr-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .vr-content {
+      width: 80%;
+      height: 80%;
+      background: url('https://source.unsplash.com/1600x900/?space') no-repeat center center;
+      background-size: cover;
+      border-radius: 15px;
+    }
+
+    .vr-close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 2em;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* 动态评论 */
+    .comment-box {
+      margin-top: 2em;
+      padding: 1em;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ff00ff;
+    }
+
+    .comment-box input, .comment-box textarea {
+      width: 100%;
+      padding: 1em;
+      border: none;
+      margin-top: 1em;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      color: #fff;
+      font-size: 1em;
+    }
+
+    .comment-box button {
+      margin-top: 1em;
+      padding: 0.8em 1.5em;
+      background-color: #ff00cc;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #ff00cc;
+    }
+
+    .comment-box button:hover {
+      background-color: #ff0066;
+      transform: scale(1.1);
+      box-shadow: 0 0 25px #ff00cc;
+    }
+
+    .comments {
+      margin-top: 2em;
+    }
+
+    .comments p {
+      background: #333;
+      padding: 1em;
+      margin: 0.5em 0;
+      border-radius: 5px;
+      color: #fff;
+      box-shadow: 0 0 10px #ff00cc;
+    }
+
   </style>
 </head>
 <body>
 
   <header>
-    <h1>?? 虚拟宇宙超想象博客 ??</h1>
+    <h1>🚀 虚拟宇宙超想象博客 🚀</h1>
     <p>一脚踢开现实的门，欢迎来到超次元领域！</p>
   </header>
 
@@ -167,29 +255,72 @@
   <main class="container">
 
     <section id="home" class="article">
-      <h2>?? 如何用一只袜子征服宇宙！</h2>
+      <h2>🧦 如何用一只袜子征服宇宙！</h2>
       <p>这不是幻想——这是现实的突破！一只平平无奇的袜子，如何逆天改命，干翻星际政府、征服火星殖民地、让黑洞都低头？阅读这篇，宇宙主宰之路就在你脚下！</p>
-      <button class="feature-button">开启征服</button>
+      <button class="feature-button" onclick="openVR()">开启征服</button>
     </section>
 
     <section id="features" class="article">
-      <h2>? 超现实博客功能 ?</h2>
+      <h2>✨ 超现实博客功能 ✨</h2>
       <p><strong>VR沉浸阅读：</strong> 一键进入虚拟空间，触摸每一个字母的呼吸。</p>
       <p><strong>梦境插件：</strong> 阅读完毕进入睡梦中继续剧情，醒来拥有主角记忆！</p>
       <p><strong>超能评论区：</strong> 评论区自动生成你的“意识分身”，参与讨论、甚至打架。</p>
     </section>
 
     <section id="articles" class="article">
-      <h2>?? 未来导航线：3020年的博客正在加载中…</h2>
+      <h2>🌌 未来导航线：3020年的博客正在加载中…</h2>
       <p>每周一期未来特别篇，邀请跨时空嘉宾在线撰稿——他们从火星、木卫二、甚至黑洞边缘发来一手资料，打破现在的想象极限！</p>
       <button class="feature-button">预览未来</button>
+    </section>
+
+    <section class="comment-box">
+      <h3>留下你的想法：</h3>
+      <input type="text" id="username" placeholder="输入你的名字">
+      <textarea id="comment" placeholder="输入你的评论"></textarea>
+      <button onclick="addComment()">提交评论</button>
+    </section>
+
+    <section class="comments" id="comments">
+      <!-- 评论区 -->
     </section>
 
   </main>
 
   <footer>
-    <p>? 2025 虚拟宇宙超想象博客 | <a href="#contact">联系我们</a></p>
+    <p>© 2025 虚拟宇宙超想象博客 | <a href="#contact">联系我们</a></p>
   </footer>
+
+  <!-- VR 模态窗口 -->
+  <div class="vr-modal" id="vrModal">
+    <div class="vr-content">
+      <span class="vr-close" onclick="closeVR()">&times;</span>
+    </div>
+  </div>
+
+  <script>
+    // VR沉浸式阅读
+    function openVR() {
+      document.getElementById("vrModal").style.display = "flex";
+    }
+
+    function closeVR() {
+      document.getElementById("vrModal").style.display = "none";
+    }
+
+    // 动态评论区
+    function addComment() {
+      const username = document.getElementById('username').value;
+      const comment = document.getElementById('comment').value;
+      if (username && comment) {
+        const commentSection = document.getElementById('comments');
+        const newComment = document.createElement('p');
+        newComment.textContent = `${username}: ${comment}`;
+        commentSection.appendChild(newComment);
+        document.getElementById('username').value = '';
+        document.getElementById('comment').value = '';
+      }
+    }
+  </script>
 
 </body>
 </html>

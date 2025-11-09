@@ -1,326 +1,240 @@
-<!DOCTYPE html>
-<html lang="zh">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>虚拟宇宙超想象博客</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- 建议：加 favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>VB</text></svg>">
+  <title>Viako 的小博客</title>
+  <meta name="description" content="Viako 的个人博客，记录前端技术、生活随笔与小工具分享。">
+  <!-- 建议：加 Open Graph（分享卡片） -->
+  <meta property="og:title" content="Viako 的小博客">
+  <meta property="og:description" content="写一点想法，记录一点生活">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourname.vercel.app">
+  <meta property="og:image" content="https://yourname.vercel.app/og.png"> <!-- 后期可加 -->
+
+  <!-- 引入 Inter 字体（Google Fonts）-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent:#60a5fa;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
     }
-
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(circle, #0f0f2d, #000);
-      color: #fff;
-      overflow-x: hidden;
+    *,*::before,*::after{box-sizing:border-box}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#071024 0%, #071933 100%);
+      color: #e6eef8;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+      line-height: 1.6;
     }
-
-    header {
-      text-align: center;
-      padding: 4em 1em;
-      background: linear-gradient(45deg, #ff0066, #6600ff);
-      animation: headerGlow 4s infinite alternate;
+    .container{
+      width:100%;
+      max-width:980px;
+      margin:0 auto;
     }
-
-    @keyframes headerGlow {
-      from { filter: brightness(1); }
-      to { filter: brightness(1.4); }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:32px; /* 加大间距 */
     }
-
-    h1 {
-      font-size: 3em;
-      margin-bottom: 0.3em;
-      text-shadow: 0 0 10px #fff;
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
     }
-
-    nav {
-      background-color: rgba(0, 0, 0, 0.8);
-      text-align: center;
-      padding: 1em 0;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      background: linear-gradient(135deg,var(--accent), #7dd3fc);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#05203a;
+      font-weight:700;
+      font-size:20px;
+      box-shadow: 0 6px 18px rgba(8,12,20,0.6);
     }
-
-    nav a {
-      margin: 0 20px;
-      color: #00ffff;
-      font-size: 1.1em;
-      text-decoration: none;
-      transition: color 0.3s;
+    h1{
+      margin:0;
+      font-size:20px;
+      font-weight: 600;
     }
-
-    nav a:hover {
-      color: #ff00ff;
-      text-shadow: 0 0 5px #fff;
+    p.lead{
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size: 14px;
     }
-
-    .container {
-      padding: 2em;
-      max-width: 1200px;
-      margin: 0 auto;
+    nav{
+      display: flex;
+      gap: 4px;
     }
-
-    .article {
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 2px solid #ff00ff;
-      border-radius: 15px;
-      padding: 2em;
-      margin-bottom: 2em;
-      box-shadow: 0 0 20px #ff00ff33;
-      transition: transform 0.4s ease;
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:10px;
+      transition: all .18s ease;
+      font-size: 14px;
+      font-weight: 500;
     }
-
-    .article:hover {
-      transform: scale(1.03);
+    nav a:hover{
+      background:var(--glass);
+      color:var(--accent);
+      backdrop-filter: blur(4px);
     }
-
-    .article h2 {
-      font-size: 2em;
-      color: #00ffff;
-      margin-bottom: 1em;
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); /* 卡片略宽 */
+      gap:20px;
     }
-
-    .article p {
-      font-size: 1.2em;
-      line-height: 1.8em;
-      color: #ddd;
+    .post{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+      border-radius: var(--radius);
+      padding:20px;
+      box-shadow: 0 6px 22px rgba(2,6,23,0.6);
+      transition: all .25s ease;
+      border:1px solid rgba(255,255,255,0.05);
+      display: flex;
+      flex-direction: column;
     }
-
-    .feature-button {
-      display: inline-block;
-      margin-top: 1.5em;
-      padding: 0.8em 1.8em;
-      background-color: #ff00cc;
-      color: #fff;
-      font-size: 1.2em;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 0 15px #ff00cc;
-      transition: all 0.3s ease-in-out;
+    .post:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(2,6,23,0.8);
     }
-
-    .feature-button:hover {
-      background-color: #ff0066;
-      transform: scale(1.1);
-      box-shadow: 0 0 25px #ff00cc;
+    .post h2{
+      margin:0 0 8px 0;
+      font-size:18px;
+      font-weight: 600;
+      line-height: 1.3;
     }
-
-    footer {
-      text-align: center;
-      padding: 2em 1em;
-      background-color: #111;
-      font-size: 0.9em;
-      color: #aaa;
+    .meta{
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:10px;
+      display: flex;
+      gap: 8px;
     }
-
-    footer a {
-      color: #00ffff;
-      text-decoration: none;
+    .meta::before{
+      content: "日期";
+      opacity: 0.6;
     }
-
-    footer a:hover {
-      color: #ff00ff;
-      text-shadow: 0 0 5px #fff;
+    .excerpt{
+      color: #cfe3fb;
+      font-size:14px;
+      line-height:1.6;
+      margin-bottom: auto; /* 让按钮靠下 */
+      flex-grow: 1;
     }
-
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2em;
-      }
-      nav a {
-        margin: 0 10px;
-        font-size: 1em;
-      }
-      .article h2 {
-        font-size: 1.5em;
-      }
-      .article p {
-        font-size: 1em;
-      }
-      .feature-button {
-        font-size: 1em;
-        padding: 0.6em 1.4em;
-      }
+    .readmore{
+      margin-top: 12px;
+      display:inline-block;
+      text-decoration:none;
+      color:var(--accent);
+      font-weight:600;
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid rgba(96,165,250,0.2);
+      background: linear-gradient(180deg, rgba(96,165,250,0.08), transparent);
+      font-size: 13px;
+      transition: all .18s;
+      align-self: flex-start;
     }
-
-    /* VR沉浸式效果 */
-    .vr-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-      animation: fadeIn 1s;
+    .readmore:hover{
+      background: rgba(96,165,250,0.15);
+      border-color: rgba(96,165,250,0.4);
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    footer{
+      margin-top:40px;
+      color:var(--muted);
+      font-size:13px;
+      text-align:center;
     }
-
-    .vr-content {
-      width: 80%;
-      height: 80%;
-      background: url('https://source.unsplash.com/1600x900/?space') no-repeat center center;
-      background-size: cover;
-      border-radius: 15px;
+    /* 移动端优化 */
+    @media (max-width:600px){
+      header{flex-direction:column; align-items:flex-start; gap:12px}
+      .logo{width:48px;height:48px; font-size:18px}
+      h1{font-size:18px}
+      .grid{grid-template-columns: 1fr}
     }
-
-    .vr-close {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      font-size: 2em;
-      color: #fff;
-      cursor: pointer;
+    /* 打印优化 */
+    @media print {
+      body{background:white; color:black}
+      .post{box-shadow:none; border:1px solid #ddd}
     }
-
-    /* 动态评论 */
-    .comment-box {
-      margin-top: 2em;
-      padding: 1em;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      box-shadow: 0 0 10px #ff00ff;
-    }
-
-    .comment-box input, .comment-box textarea {
-      width: 100%;
-      padding: 1em;
-      border: none;
-      margin-top: 1em;
-      background-color: rgba(255, 255, 255, 0.2);
-      border-radius: 5px;
-      color: #fff;
-      font-size: 1em;
-    }
-
-    .comment-box button {
-      margin-top: 1em;
-      padding: 0.8em 1.5em;
-      background-color: #ff00cc;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 0 15px #ff00cc;
-    }
-
-    .comment-box button:hover {
-      background-color: #ff0066;
-      transform: scale(1.1);
-      box-shadow: 0 0 25px #ff00cc;
-    }
-
-    .comments {
-      margin-top: 2em;
-    }
-
-    .comments p {
-      background: #333;
-      padding: 1em;
-      margin: 0.5em 0;
-      border-radius: 5px;
-      color: #fff;
-      box-shadow: 0 0 10px #ff00cc;
-    }
-
   </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-label="Viako 博客 Logo">VB</div>
+        <div>
+          <h1>Viako 的小博客</h1>
+          <p class="lead">写一点想法，记录一点生活 · 欢迎交流</p>
+        </div>
+      </div>
+      <nav aria-label="主导航">
+        <a href="index.html">主页</a>
+        <a href="#articles">文章</a>
+        <a href="#about">关于</a>
+      </nav>
+    </header>
 
-  <header>
-    <h1>🚀 虚拟宇宙超想象博客 🚀</h1>
-    <p>一脚踢开现实的门，欢迎来到超次元领域！</p>
-  </header>
+    <main>
+      <section class="grid" aria-label="文章列表">
+        <!-- 文章1 -->
+        <article class="post">
+          <h2>示例文章：如何开始写博客</h2>
+          <p class="meta">2025-11-09 · 阅读 3 分钟</p>
+          <p class="excerpt">
+            这是一个演示文章的摘要。点击下方按钮即可打开完整文章页面并查看内容示例。
+          </p>
+          <a class="readmore" href="articles/post1.html">阅读全文 →</a>
+        </article>
 
-  <nav>
-    <a href="#home">首页</a>
-    <a href="#features">功能</a>
-    <a href="#articles">文章</a>
-    <a href="#contact">联系</a>
-  </nav>
+        <!-- 文章2 -->
+        <article class="post">
+          <h2>笔记：前端小工具推荐</h2>
+          <p class="meta">2025-10-21 · 阅读 2 分钟</p>
+          <p class="excerpt">
+            简短介绍几个有用的前端工具、代码片段与部署小技巧。
+          </p>
+          <a class="readmore" href="articles/post2.html">阅读全文 →</a>
+        </article>
 
-  <main class="container">
+        <!-- 文章3 -->
+        <article class="post">
+          <h2>生活随记：一次小旅行</h2>
+          <p class="meta">2025-08-12 · 阅读 4 分钟</p>
+          <p class="excerpt">
+            用文字记录旅行的风景与细碎心情 —— 简洁而暖的片段。
+          </p>
+          <a class="readmore" href="articles/post3.html">阅读全文 →</a>
+        </article>
+      </section>
+    </main>
 
-    <section id="home" class="article">
-      <h2>🧦 如何用一只袜子征服宇宙！</h2>
-      <p>这不是幻想——这是现实的突破！一只平平无奇的袜子，如何逆天改命，干翻星际政府、征服火星殖民地、让黑洞都低头？阅读这篇，宇宙主宰之路就在你脚下！</p>
-      <button class="feature-button" onclick="openVR()">开启征服</button>
-    </section>
-
-    <section id="features" class="article">
-      <h2>✨ 超现实博客功能 ✨</h2>
-      <p><strong>VR沉浸阅读：</strong> 一键进入虚拟空间，触摸每一个字母的呼吸。</p>
-      <p><strong>梦境插件：</strong> 阅读完毕进入睡梦中继续剧情，醒来拥有主角记忆！</p>
-      <p><strong>超能评论区：</strong> 评论区自动生成你的“意识分身”，参与讨论、甚至打架。</p>
-    </section>
-
-    <section id="articles" class="article">
-      <h2>🌌 未来导航线：3020年的博客正在加载中…</h2>
-      <p>每周一期未来特别篇，邀请跨时空嘉宾在线撰稿——他们从火星、木卫二、甚至黑洞边缘发来一手资料，打破现在的想象极限！</p>
-      <button class="feature-button">预览未来</button>
-    </section>
-
-    <section class="comment-box">
-      <h3>留下你的想法：</h3>
-      <input type="text" id="username" placeholder="输入你的名字">
-      <textarea id="comment" placeholder="输入你的评论"></textarea>
-      <button onclick="addComment()">提交评论</button>
-    </section>
-
-    <section class="comments" id="comments">
-      <!-- 评论区 -->
-    </section>
-
-  </main>
-
-  <footer>
-    <p>© 2025 虚拟宇宙超想象博客 | <a href="#contact">联系我们</a></p>
-  </footer>
-
-  <!-- VR 模态窗口 -->
-  <div class="vr-modal" id="vrModal">
-    <div class="vr-content">
-      <span class="vr-close" onclick="closeVR()">&times;</span>
-    </div>
+    <footer id="about">
+      © 2025 Viako · 纯 HTML 静态博客 · 
+      <a href="https://vercel.com" target="_blank" style="color:var(--accent)">Vercel 托管</a>
+    </footer>
   </div>
-
-  <script>
-    // VR沉浸式阅读
-    function openVR() {
-      document.getElementById("vrModal").style.display = "flex";
-    }
-
-    function closeVR() {
-      document.getElementById("vrModal").style.display = "none";
-    }
-
-    // 动态评论区
-    function addComment() {
-      const username = document.getElementById('username').value;
-      const comment = document.getElementById('comment').value;
-      if (username && comment) {
-        const commentSection = document.getElementById('comments');
-        const newComment = document.createElement('p');
-        newComment.textContent = `${username}: ${comment}`;
-        commentSection.appendChild(newComment);
-        document.getElementById('username').value = '';
-        document.getElementById('comment').value = '';
-      }
-    }
-  </script>
-
 </body>
 </html>

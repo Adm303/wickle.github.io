@@ -23,13 +23,13 @@
             <key>metadata</key>
             <dict>
                 <key>bundle-identifier</key>
-                <string>com.ss.iphone.douyin</string>
+                <string>Twitter Inc.</string>
                 <key>bundle-version</key>
-                <string>16.9.1</string>
+                <string>v6.13.6</string>
                 <key>kind</key>
                 <string>software</string>
                 <key>title</key>
-                <string>抖音 16.9.1（去广告版）</string>
+                <string>Twitter</string>
             </dict>
         </dict>
     </array>
